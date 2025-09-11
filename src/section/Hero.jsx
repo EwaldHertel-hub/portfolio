@@ -2,8 +2,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 import Button from "../components/ui/Button";
-import { words } from "../constants";
-import HeroExperience from "../components/models/HeroExperience";
 
 const Hero = () => {
   useGSAP(() => {
@@ -20,7 +18,7 @@ const Hero = () => {
         <img src="/images/bg.png" alt="" />
       </div>
 
-      <div className="hero-layout">
+      <div className="hero-layout flex flex-row">
         <header className="flex flex-col justify-center md:w-full w-screen px-20">
           <div className="flex flex-col gap-7 items-center xl:items-start">
             <div className="hero-text ">
@@ -32,7 +30,7 @@ const Hero = () => {
             </div>
 
             <p className="text-white-50 md:text-xl relative z-10 pointer-events-none">
-              Hi, I’m Ewald, a developer based in Germany with a passion for
+              Hi, we are a small Agency based in Germany with a passion for
               code.
             </p>
 
@@ -43,13 +41,9 @@ const Hero = () => {
             />
           </div>
         </header>
-
-        {/* RIGHT: 3D Model or Visual */}
-        <figure>
-          <div className="hero-3d-layout">
-            <HeroExperience />
-          </div>
-        </figure>
+        <div className="flex flex-col justify-center md:w-full w-screen px-20">
+          <img src="/images/elegant.svg" alt="logo" />
+        </div>
       </div>
     </section>
   );
