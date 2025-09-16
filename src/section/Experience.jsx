@@ -1,15 +1,24 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useSelector } from "react-redux";
+import { useSmoothLanguage } from "../lib/hooks/useSmoothLanguage";
 
-import { expCards } from "../constants";
 import TitleHeader from "../components/TitleHeader";
 import GlowCard from "../components/GlowCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
+    const { language } = useSelector((state) => state.language);
+    const content = useSelector((state) => (language === 'en' ? state.enPack : state.dePack)['experience']);
+
+    const { displayedContent, style } = useSmoothLanguage(content);
+
+    const expCards = displayedContent ? [displayedContent.experience_1, displayedContent.experience_2, displayedContent.experience_3] : [];
+
     useGSAP(() => {
+        if (!displayedContent) return;
         gsap.utils.toArray(".timeline-card").forEach((card) => {
              gsap.from(card, {
             xPercent: -100,
@@ -51,17 +60,21 @@ const Experience = () => {
         },
       });
     }, "<");
-  }, []);
+  }, [displayedContent]);
+
+  if (!displayedContent) {
+    return null;
+  }
 
   return (
     <section
         id="experience"
         className="flex-center md:mt-40 mt-20 section-padding xl:px-0"
     >
-        <div className="w-full h-full md:px-20 px-5">
+        <div style={style} className="w-full h-full md:px-20 px-5">
             <TitleHeader 
-                title="Professional Work Experience" 
-                sub="My Work Overview"
+                title={displayedContent.title} 
+                sub={displayedContent.subtitle}
             />
             <div className="mt-32 relative">
                 <div className="relative z-50 xl:space-y-32 space-y-10 xl:block flex flex-col items-center">
@@ -88,7 +101,7 @@ const Experience = () => {
                                 🗓️&nbsp;{card.date}
                                 </p>
                                 <p className="text-[#839CB5] italic">
-                                Responsibilities
+                                {displayedContent.responsibilities_heading}
                                 </p>
                                 <ul className="list-disc ms-5 mt-5 flex flex-col gap-5 text-white-50">
                                 {card.responsibilities.map(
